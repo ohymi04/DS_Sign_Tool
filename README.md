@@ -6,7 +6,7 @@ Simplify the digital signing of your files and directories, ensuring their integ
 ---
 
 ## 🎯 About  
-**DS Sign Tool** is a user-friendly application for signing and verifying files or directories using RSA cryptography. This tool ensures your files are authentic and unaltered by providing robust digital signatures.  
+**DS-Sign-Tool** is a user-friendly application for signing and verifying files or directories using RSA cryptography. This tool ensures your files are authentic and unaltered by providing robust digital signatures.  
 With an intuitive interface and key features, DS Sign Tool is your trusted ally for safeguarding scripts, executables, and critical projects.
 
 ---
@@ -40,7 +40,7 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 
 ### 2. Installation Options  
 #### **Option 1**: Use the Precompiled Executable  
-- Download the `DS Sign Tool.exe` file from the **Releases** section on GitHub.  
+- Download the `DS-Sign-Tool.exe` file from the **Releases** section on GitHub.  
 - Run the executable—no additional setup required.  
 
 #### **Option 2**: Run from Source Code  
@@ -91,7 +91,7 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 
 ## 🎨 Graphical Interface  
 
-The DS Sign Tool interface has been designed for simplicity and ease of use:  
+The DS-Sign-Tool interface has been designed for simplicity and ease of use:  
 - **Generate Keys**: Create a new key pair with a single click.  
 - **Sign File/Directory**: Select the file or directory to sign.  
 - **Verify File/Directory**: Validate the integrity using a public key.  
@@ -110,7 +110,7 @@ If you wish to create a custom executable from the source code:
    ```  
 2. Create an executable with a custom name:  
    ```bash
-   pyinstaller --onefile --windowed --name "DS Sign Tool" DS_Sign_Tool.py
+   pyinstaller --onefile --windowed --name "DS-Sign-Tool" DS_Sign_Tool.py
    ```  
 3. The executable will be located in the `dist/` directory:  
    - `DS Sign Tool.exe`  
