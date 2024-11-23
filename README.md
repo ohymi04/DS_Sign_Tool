@@ -1,6 +1,6 @@
 ---
 
-# 🌟 DS Sign Tool 🌟  
+# 🌟 DS-Sign-Tool 🌟  
 Simplify the digital signing of your files and directories, ensuring their integrity and authenticity.
 
 ---
