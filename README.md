@@ -160,7 +160,7 @@ This project is licensed under the **MIT Licence**. You are free to use, modify,
 
 For any questions or support, feel free to get in touch:  
 - **GitHub**: [ohymi04](https://github.com/ohymi04)  
-- **Email**: [...]  
+- **Discord**: [hy0.___.mi4](https://discordapp.com/users/387302720593461249)
 
 ---
 
