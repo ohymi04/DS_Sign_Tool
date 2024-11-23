@@ -159,7 +159,7 @@ This project is licensed under the **MIT Licence**. You are free to use, modify,
 ## 🛡️ Contact  
 
 For any questions or support, feel free to get in touch:  
-- **GitHub**: [\[Your Profile\]](https://github.com/ohymi04)  
+- **GitHub**: [\[ohymi04\]](https://github.com/ohymi04)  
 - **Email**: [Your Email]  
 
 ---
