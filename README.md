@@ -1,5 +1,3 @@
-Here’s an elegant and polished README.md tailored to your project, written in British English:
-
 ---
 
 # 🌟 DS Sign Tool 🌟  
