@@ -1,11 +1,11 @@
 ## Changelog
 
 ### Added
-- Première version du DS Sign Tool.
+- First version of the DS Sign Tool.
 
 ### Changed
-- Amélioration de la performance de signature.
+- Improved signing performance.
 
 ### Fixed
-- Correction de bugs mineurs.
+- Minor bug fixes.
 
