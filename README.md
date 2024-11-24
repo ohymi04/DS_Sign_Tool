@@ -128,11 +128,11 @@ If you wish to create a custom executable from the source code:
 
 The libraries used in this project are listed in the `requirements.txt` file:  
 - **cryptography**: Handles RSA keys and digital signatures.  
-- **tkinter**: Provides the graphical user interface.  
+- **tkinterdnd2**: Provides the graphical user interface.  
 
 To install them manually:  
 ```bash
-pip install cryptography
+pip install cryptography tkinterdnd2
 ```  
 
 ---
