@@ -23,8 +23,8 @@ def resource_path(relative_path):
     
     return os.path.join(base_path, relative_path)
 
-# Chemin vers OpenSSL
-OPENSSL_PATH = "C:\\Users\\nguyen\\Desktop\\DS_Sign_Tool\\openssl\\openssl.exe"  # Remplacez ce chemin si nécessaire
+# Chemin vers OpenSSL après la compilation
+OPENSSL_PATH = resource_path("openssl/openssl.exe")
 
 # Fonction pour calculer le hachage d'un fichier avec SHA-256
 def calculate_hash(file_path):
