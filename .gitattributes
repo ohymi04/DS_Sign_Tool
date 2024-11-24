@@ -1,4 +1,0 @@
-releases/DS-Sign-Tool.exe filter=lfs diff=lfs merge=lfs -text
-releases/DS-Sign-Tool.zip filter=lfs diff=lfs merge=lfs -text
-openssl/lib/VC/x64/MD/libcrypto_static.lib filter=lfs diff=lfs merge=lfs -text
-openssl/lib/VC/x64/MT/libcrypto_static.lib filter=lfs diff=lfs merge=lfs -text
