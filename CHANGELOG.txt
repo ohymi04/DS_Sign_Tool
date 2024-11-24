@@ -1,11 +1,21 @@
-## Changelog
+## 🔄 CHANGELOG
 
+### v1.1.0 (2024-11)
+#### Added:
+- **File Signing**: Sign any type of file with the private key.
+- **Directory Signing**: Sign directories by first compressing them into `.ZIP` files.
+- **Signature Verification**: Verify the integrity and authenticity of both signed files and directories (after compression).
+#### Changed:
+- **Removed Directory Signing Without Compression**: Now, only compressed directories (i.e., `.ZIP` files) can be signed.
+- **Interface Update**: Simplified to focus on signing and verifying files and directories (after compression) with public/private keys.
+#### Fixed:
+- Improved file handling and the signing process.
+
+### v1.0.0 (2024-11)
 ### Added
 - First version of the DS Sign Tool.
-
 ### Changed
 - Improved signing performance.
-
 ### Fixed
 - Minor bug fixes.
 
