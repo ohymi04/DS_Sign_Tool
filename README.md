@@ -128,7 +128,6 @@ If you wish to create a custom executable from the source code:
 
 The libraries used in this project are listed in the `requirements.txt` file:  
 - **cryptography**: Handles RSA keys and digital signatures.  
-- **hashlib**: Computes SHA-256 hashes.  
 - **tkinter**: Provides the graphical user interface.  
 
 To install them manually:  
