@@ -63,7 +63,7 @@ class DSSignTool:
         self.root.title("DS-Sign-Tool")
         self.root.geometry("900x600")
         self.root.resizable(True, True)  # Rendre la fenêtre redimensionnable
-        self.root.iconbitmap("C:\\Users\\nguyen\\Desktop\\DS_Sign_Tool\\md5.ico")  # Remplacez ce chemin si nécessaire
+        self.root.iconbitmap("md5.ico")  # Remplacez ce chemin si nécessaire
 
         # Titre principal
         tk.Label(self.root, text="DS-Sign-Tool", font=("Helvetica", 20, "bold")).pack(pady=20)
