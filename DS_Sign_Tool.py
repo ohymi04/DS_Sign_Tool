@@ -1,4 +1,5 @@
 import os
+import sys
 import hashlib
 import subprocess
 import tkinter as tk
@@ -9,6 +10,18 @@ KEY_DIR = "keys/"  # Répertoire pour stocker les clés
 # Crée un répertoire "keys/" s'il n'existe pas
 if not os.path.exists(KEY_DIR):
     os.makedirs(KEY_DIR)
+
+# Détecte si l'application fonctionne depuis un fichier exécuté par PyInstaller
+def resource_path(relative_path):
+    """ Récupère le chemin de l'icône ou d'autres ressources après la compilation. """
+    try:
+        # PyInstaller crée un dossier temporaire pour les fichiers
+        base_path = sys._MEIPASS
+    except Exception:
+        # Si l'application est en développement, retourne le répertoire actuel
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 # Chemin vers OpenSSL
 OPENSSL_PATH = "C:\\Users\\nguyen\\Desktop\\DS_Sign_Tool\\openssl\\openssl.exe"  # Remplacez ce chemin si nécessaire
@@ -63,7 +76,13 @@ class DSSignTool:
         self.root.title("DS-Sign-Tool")
         self.root.geometry("900x600")
         self.root.resizable(True, True)  # Rendre la fenêtre redimensionnable
-        self.root.iconbitmap("md5.ico")  # Remplacez ce chemin si nécessaire
+ 
+ # Utilisation de la fonction resource_path pour obtenir le chemin correct de l'icône
+        icon_path = resource_path("md5.ico")
+        try:
+            self.root.iconbitmap(icon_path)  # Utilise l'icône récupérée dynamiquement
+        except Exception as e:
+            print(f"Error loading icon: {e}")
 
         # Titre principal
         tk.Label(self.root, text="DS-Sign-Tool", font=("Helvetica", 20, "bold")).pack(pady=20)
