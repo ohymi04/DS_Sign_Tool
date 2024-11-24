@@ -12,23 +12,30 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 ---
 
 ## 🚀 Features  
-### ✅ **RSA Key Generation**  
-- Securely generate a key pair (private and public).  
-- The private key is securely stored within the application directory.  
+### ✅ **Key Pair Generation**  
+- Securely generate a key pair (private and public) for signing and verifying files.  
+- The private key and public key are securely stored in the `keys/` directory.
 
-### ✅ **File and Directory Signing**  
-- Hash executable files (.exe, .msi) or entire directories.  
-- Automatically creates associated files:  
-  - `dir_file`: Contains information about the structure of the file/directory.  
-  - `hash_file`: Contains the hash of the file/directory.  
-  - `hash_signed_file`: Contains the hash signed with the private key.  
+### ✅ **File Signing**  
+- Sign any type of file (e.g., `.exe`, `.msi`, `.txt`, `.mp4`, `.jpg`, etc.) using the private key.
+- After signing, a `.signed` file is created with the signature of the file.
+
+### ✅ **Directory Signing**  
+- If you want to sign an entire directory, you must first compress it into a `.ZIP` file.
+- After compression, the directory will be treated as a file and can be signed like any other file.
+- The `.ZIP` file, along with the corresponding public key and signed file, will be created in the `keys/` directory.
 
 ### ✅ **Signature Verification**  
-- Verify the integrity and authenticity of a signed file or directory using a public key.  
+- Verify the integrity and authenticity of a signed file using the public key.
+- This works with both individual files and compressed directories (i.e., `.ZIP` files).
 
 ### ✅ **Intuitive Interface**  
-- A simple, clear graphical interface for all operations.  
-
+- A simple, clear graphical interface for all operations:
+  - Generate key pairs (public/private).
+  - Sign files or directories (after compression).
+  - Verify signed files with the public key.
+- Flexible window size to accommodate key entry fields and file selection.
+ 
 ---
 
 ## 🖥️ Installation  
@@ -60,22 +67,24 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 
 ---
 
-## 🛠️ Usage  
+## 🛠️ How to Use
 
-### 1. Generate RSA Keys  
-- Click "Generate Keys" in the application.  
-- A pair of keys (public and private) will be created:  
-  - `private_key.pem`: The private key (keep it secure).  
-  - `public_key.pem`: The public key (can be shared).  
+1. **Generate Keys**:
+   - Click "Generate Keys" to create a new public/private key pair. Enter the name for the key during generation.
+   - The keys are saved in the `keys/` directory.
 
-### 2. Sign a File or Directory  
-- Click "Sign File/Directory" and select the item to sign.  
-- Associated files will be automatically created in the same directory.  
+2. **Sign a File**:
+   - Click "Sign a File" to select a file you want to sign.
+   - Enter the path to your private key and the tool will create a `.signed` file with the signature.
 
-### 3. Verify a File or Directory  
-- Click "Verify File/Directory".  
-- Select the file/directory and the corresponding public key.  
-- The application will confirm whether the signature is valid.  
+3. **Sign a Directory**:
+   - First, compress the directory you want to sign into a `.ZIP` file.
+   - Then, click "Sign a File" and select the `.ZIP` file.
+   - The tool will create the `.signed` file for the `.ZIP` file, and the public key will be saved in the `keys/` directory along with the signed file.
+
+4. **Verify a File**:
+   - Click "Verify a File" to select a signed file.
+   - Enter the path to the corresponding public key to verify the file's signature.
 
 ---
 
@@ -83,9 +92,7 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 
 | File                  | Description                                             |  
 |-----------------------|---------------------------------------------------------|  
-| `<name>.dir_file`     | Contains information about the structure of the file/directory. |  
-| `<name>.hash_file`    | Contains the raw SHA-256 hash of the file/directory.    |  
-| `<name>.hash_signed_file` | Contains the hash signed with the private key.           |  
+| `<name>.signed` | Contains the hash signed with the private key.              |  
 
 ---
 
@@ -131,6 +138,12 @@ pip install cryptography
 
 ---
 
+## 💡 Notes
+
+- Ensure that your keys are securely stored and backed up, as they are necessary for both signing and verification.
+- When signing a directory, compress it to a `.ZIP` file before selecting it. You will get a `.signed` file and the public key, which should be stored together with the signed file.
+
+---
 ## 💡 Security Tips  
 
 1. **Protect Your Private Key**:  
