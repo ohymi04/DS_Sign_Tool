@@ -10,6 +10,7 @@
 
 ## 🎯 About  
 **DS-Sign-Tool** is a powerful yet user-friendly application designed for securely signing and verifying all types of files using cryptographic algorithms (via OpenSSL). Whether you’re protecting your documents, scripts, images, videos, or executables, DS-Sign-Tool ensures their authenticity and guards against tampering with robust digital signatures.
+
 ---
 
 ## 🚀 Features  
