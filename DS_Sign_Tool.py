@@ -23,7 +23,7 @@ def resource_path(relative_path):
     
     return os.path.join(base_path, relative_path)
 
-# Chemin vers OpenSSL après la compilation
+# Utilise un chemin relatif pour OpenSSL
 OPENSSL_PATH = resource_path("openssl/openssl.exe")
 
 # Fonction pour calculer le hachage d'un fichier avec SHA-256
@@ -76,9 +76,9 @@ class DSSignTool:
         self.root.title("DS-Sign-Tool")
         self.root.geometry("900x600")
         self.root.resizable(True, True)  # Rendre la fenêtre redimensionnable
- 
- # Utilisation de la fonction resource_path pour obtenir le chemin correct de l'icône
-        icon_path = resource_path("md5.ico")
+
+# Utilisation de la fonction resource_path pour obtenir le chemin correct de l'icône
+        icon_path = resource_path("DS-Sign-Tool_Icone.ico")
         try:
             self.root.iconbitmap(icon_path)  # Utilise l'icône récupérée dynamiquement
         except Exception as e:
@@ -223,4 +223,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = DSSignTool(root)
     root.mainloop()
-
