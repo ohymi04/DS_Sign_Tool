@@ -1,8 +1,8 @@
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/814bfa67-7c50-4468-be0c-9180d987a4df" alt="DS-Sign-Tool_Icone">
-  
-   # 🌟 DS-Sign-Tool 🌟  
+
+   <h1 style="font-family: 'Cinzel', serif;">🌟 DS-Sign-Tool 🌟</h1>
    Simplify the digital signing of your files and directories, ensuring their integrity and authenticity.
 </div>
 
