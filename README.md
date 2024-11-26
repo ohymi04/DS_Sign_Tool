@@ -120,7 +120,7 @@ If you wish to create a custom executable from the source code:
    pyinstaller --onefile --windowed --name "DS-Sign-Tool" DS_Sign_Tool.py
    ```  
 3. The executable will be located in the `dist/` directory:  
-   - `DS Sign Tool.exe`  
+   - `DS-Sign-Tool.exe`  
 
 ---
 
