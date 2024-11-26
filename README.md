@@ -103,7 +103,7 @@ The DS-Sign-Tool interface has been designed for simplicity and ease of use:
 - **Sign File/Directory**: Select the file or directory to sign.  
 - **Verify File/Directory**: Validate the integrity using a public key.  
 
-*(Add a screenshot here if possible)*  
+![Capture d'écran 2024-11-25 214533](https://github.com/user-attachments/assets/14a9436c-987d-41a5-86ef-48e9cf009ee5)
 
 ---
 
