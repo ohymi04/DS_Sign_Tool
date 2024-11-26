@@ -48,7 +48,7 @@ With an intuitive interface and key features, DS Sign Tool is your trusted ally 
 ### 2. Installation Options  
 #### **Option 1**: Use the Precompiled Executable  
 - Download the `DS-Sign-Tool.exe` file from the [**Releases**](https://github.com/ohymi04/DS_Sign_Tool/releases) section on GitHub.  
-- Run the executable—no additional setup required.  
+- Run the executable, no additional setup required.  
 
 #### **Option 2**: Run from Source Code  
 1. Clone the project from GitHub:  
