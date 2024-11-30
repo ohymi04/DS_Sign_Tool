@@ -40,7 +40,7 @@
  
 ---
 
-⚠️ Before installing the application, check if your OS can support it
+⚠️ Before installing the application, check if your OS can support it (Click here to see [all the versions available](https://github.com/ohymi04/DS_Sign_Tool/releases/tag/Note))
 
 ---
 
