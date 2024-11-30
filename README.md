@@ -40,6 +40,10 @@
  
 ---
 
+⚠️ Before installing the application, check if your OS can support it
+
+---
+
 ## 🖥️ Installation  
 
 ### 1. Prerequisites  
