@@ -105,7 +105,7 @@ The DS-Sign-Tool interface has been designed for simplicity and ease of use:
 - **Sign File/Directory**: Select the file or directory to sign.  
 - **Verify File/Directory**: Validate the integrity using a public key.  
 
-![Capture d'écran 2024-11-25 214533](https://github.com/user-attachments/assets/14a9436c-987d-41a5-86ef-48e9cf009ee5)
+![Capture d'écran 2024-11-30 173712](https://github.com/user-attachments/assets/05206145-5c71-434c-a19f-4465a317670b)
 
 ---
 
@@ -130,12 +130,11 @@ If you wish to create a custom executable from the source code:
 
 The libraries used in this project are listed in the `requirements.txt` file:  
 - **cryptography**: Handles RSA keys and digital signatures.  
-- **tkinterdnd2**: Provides the graphical user interface.  
 - **PyQt5**: Provides the graphical user interface.
 
 To install them manually:  
 ```bash
-pip install cryptography tkinterdnd2
+pip install cryptography PyQt5
 ```  
 
 ---
