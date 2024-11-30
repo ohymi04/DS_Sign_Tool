@@ -1,3 +1,2 @@
 cryptography
-tkinterdnd2
 PyQt5
