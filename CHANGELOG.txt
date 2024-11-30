@@ -1,5 +1,17 @@
 ## 🔄 CHANGELOG
 
+### v1.2.0 (2024-12)
+#### Added:
+- **File Signing**: Sign files using a private key with the OpenSSL command line.
+- **Directory Signing**: Sign directories by generating a file that lists the directory structure, calculating the hash, and signing the hash.
+- **Signature Verification**: Verify the integrity of both signed files and directories by checking the structure of the directory and the validity of the hash signature.
+#### Changed:
+- **File/Folder Path Input**: Simplified the input process for files and folders to allow for easier browsing and selection.
+- **UI Improvements**: Added a dynamic banner image to the application window for a more polished and professional appearance.
+#### Fixed:
+- **Signing Process**: Enhanced the signing process for directories by adding structure validation before signing.
+- **Verification Process**: Improved directory verification by ensuring the structure matches the expected one before verifying the signature.
+
 ### v1.1.0 (2024-11)
 #### Added:
 - **File Signing**: Sign any type of file with the private key.
