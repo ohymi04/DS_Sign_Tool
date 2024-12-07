@@ -97,8 +97,6 @@
    - Click "Verify File/Folder" to select a signed file or directory.
    - Enter the path to the corresponding public key to verify the signature and structure.
 
----
-
 ![Picture5](https://github.com/user-attachments/assets/e38cbc43-9772-4c3d-af81-5cce15a9aac4)
 
 ---
