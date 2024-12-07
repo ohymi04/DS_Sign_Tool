@@ -1,5 +1,18 @@
 ## 🔄 CHANGELOG
 
+### v2.0.0 (2024-12)
+#### Added:
+- **Dynamic Banner**: Replaced the text-based application title with a dynamic banner that adapts to various resolutions. Now supports `.png` format for improved visual fidelity.
+- **Directory Structure Hashing**: Enhanced directory signing by including tree structure validation. The `dir_file` now contains a detailed tree structure with emojis for visual clarity.
+- **Error Handling**: Improved error handling during signing and verification for both files and directories with detailed feedback in case of failure.
+#### Changed:
+- **All-in-One Script**: Removed `utils.py` to consolidate all functionalities into a single Python file, simplifying deployment and maintenance.
+- **File/Directory Processing**: Optimized the directory structure generation process to ensure robustness in handling nested folders and complex file hierarchies.
+- **OpenSSL Encoding**: Updated OpenSSL command calls to include `encoding="utf-8", errors="ignore"` for improved compatibility across systems and environments.
+#### Fixed:
+- **Directory Verification**: Fixed an issue where directory verification could fail if the hash file was mismatched or modified externally.
+- **Encoding Issues**: Resolved encoding errors during file reading and writing processes for `dir_file`, `hash_file`, and their respective signed counterparts.
+
 ### v1.2.0 (2024-12)
 #### Added:
 - **File Signing**: Sign files using a private key with the OpenSSL command line.
