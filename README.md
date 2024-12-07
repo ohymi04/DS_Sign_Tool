@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="/Users/ohymi04/Library/CloudStorage/OneDrive-Efrei/Efrei3/Perso/Application DS Sign Tool/Logo - Icon/banner_png.png" alt="DS-Sign-Tool Banner" width="800">
+  <img width="1318" alt="banner_png" src="https://github.com/user-attachments/assets/3995a9fb-0918-4808-8767-db1cc719c930">
 
    ## 🌟 DS-Sign-Tool 🌟
    Simplify the digital signing of your files and directories, ensuring their integrity and authenticity.
@@ -99,6 +99,10 @@
 
 ---
 
+![Picture5](https://github.com/user-attachments/assets/e38cbc43-9772-4c3d-af81-5cce15a9aac4)
+
+---
+
 ## 📁 Generated File Structure  
 
 | File                  | Description                                             |  
@@ -117,7 +121,7 @@ The DS-Sign-Tool interface has been designed for simplicity and ease of use:
 - **Sign File/Directory**: Select the file or directory to sign.  
 - **Verify File/Directory**: Validate the integrity using a public key.  
 
-![Capture d'écran 2024-11-30 173712](https://github.com/user-attachments/assets/05206145-5c71-434c-a19f-4465a317670b)
+![Picture4](https://github.com/user-attachments/assets/dd66fcd9-8429-4c5f-82cc-884b084216ca)
 
 ---
 
