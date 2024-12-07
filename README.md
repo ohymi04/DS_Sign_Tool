@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/814bfa67-7c50-4468-be0c-9180d987a4df" alt="DS-Sign-Tool_Icone">
+  <img src="/Users/ohymi04/Library/CloudStorage/OneDrive-Efrei/Efrei3/Perso/Application DS Sign Tool/Logo - Icon/banner_png.png" alt="DS-Sign-Tool Banner" width="800">
 
    ## 🌟 DS-Sign-Tool 🌟
    Simplify the digital signing of your files and directories, ensuring their integrity and authenticity.
@@ -22,21 +22,24 @@
 - Sign any type of file (e.g., `.exe`, `.msi`, `.txt`, `.mp4`, `.jpg`, etc.) using the private key.
 - After signing, a `.signed` file is created with the signature of the file.
 
-### ✅ **Directory Signing**  
-- If you want to sign an entire directory, you must first compress it into a `.ZIP` file.
-- After compression, the directory will be treated as a file and can be signed like any other file.
-- The `.ZIP` file, along with the corresponding public key and signed file, will be created in the `keys/` directory.
+### ✅ **Enhanced Directory Signing**  
+- **Improved Structure Validation**: A file named `dir_file` is generated to represent the directory tree.
+- **Robust Hash Verification**: A `hash_file` is generated for the directory's structure hash, which is signed to ensure tamper-proof verification.
+- **Flexible Tree Representation**: The directory tree includes emojis (`📁` for folders and `📄` for files) for clarity.
 
 ### ✅ **Signature Verification**  
 - Verify the integrity and authenticity of a signed file using the public key.
-- This works with both individual files and compressed directories (i.e., `.ZIP` files).
+- Directory verification now ensures both the structure and hash signature match the expected values.
 
-### ✅ **Intuitive Interface**  
-- A simple, clear graphical interface for all operations:
-  - Generate key pairs (public/private).
-  - Sign files or directories (after compression).
-  - Verify signed files with the public key.
-- Flexible window size to accommodate key entry fields and file selection.
+### ✅ **Improved Graphical Interface**  
+- Introduced a banner image in the main application window for a modern and polished appearance.
+- Simplified navigation and file selection:
+  - File signing.
+  - Directory signing.
+  - Signature verification.
+
+### ✅ **All-in-One Script**  
+- All functionality has been consolidated into a single Python script for easier deployment and management.
  
 ---
 
@@ -80,17 +83,19 @@
    - The keys are saved in the `keys/` directory.
 
 2. **Sign a File**:
-   - Click "Sign a File" to select a file you want to sign.
+   - Click "Sign File/Folder" to select a file you want to sign.
    - Enter the path to your private key and the tool will create a `.signed` file with the signature.
 
 3. **Sign a Directory**:
-   - First, compress the directory you want to sign into a `.ZIP` file.
-   - Then, click "Sign a File" and select the `.ZIP` file.
-   - The tool will create the `.signed` file for the `.ZIP` file, and the public key will be saved in the `keys/` directory along with the signed file.
+   - Select the directory you wish to sign directly.
+   - The tool generates:
+     - `dir_file`: Tree structure of the directory.
+     - `hash_file`: SHA-256 hash of the tree structure.
+     - `hash_file.signed`: Signed hash file for verification.
 
-4. **Verify a File**:
-   - Click "Verify a File" to select a signed file.
-   - Enter the path to the corresponding public key to verify the file's signature.
+4. **Verify a File/Directory**:
+   - Click "Verify File/Folder" to select a signed file or directory.
+   - Enter the path to the corresponding public key to verify the signature and structure.
 
 ---
 
@@ -98,7 +103,10 @@
 
 | File                  | Description                                             |  
 |-----------------------|---------------------------------------------------------|  
-| `<name>.signed` | Contains the hash signed with the private key.              |  
+| `<file>.signed`       | Contains the hash signed with the private key.          |  
+| `dir_file`            | Represents the directory tree structure.               |  
+| `hash_file`           | Contains the SHA-256 hash of `dir_file`.                |  
+| `hash_file.signed`    | Signed hash of the directory tree for validation.       |  
 
 ---
 
