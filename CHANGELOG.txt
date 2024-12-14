@@ -1,5 +1,21 @@
 ## 🔄 CHANGELOG
 
+### v2.1.0 (2024-12)
+#### Added:
+- **Progress Bar Integration**:
+  - Added a dynamic progress bar for signing and verifying files or directories.
+  - Displays progress from 0% to 100%, providing real-time feedback on the operation's progress.
+- **Process Management**:
+  - Implemented functionality to track and manage active OpenSSL CLI processes.
+  - Ensures that all active processes are terminated properly when the application is closed to free up system resources.
+#### Fixed:
+- **Process Termination**:
+  - Fixed an issue where OpenSSL CLI processes could remain active if the application was closed unexpectedly.
+#### Changed:
+- **Standalone File Signing and Verification**:
+  - Improved the `sign_file_standalone` and `verify_file_standalone` functions to use `subprocess.Popen` for process tracking.
+  - Enhanced error handling with detailed feedback on CLI execution failures.
+
 ### v2.0.0 (2024-12)
 #### Added:
 - **Dynamic Banner**: Replaced the text-based application title with a dynamic banner that adapts to various resolutions. Now supports `.png` format for improved visual fidelity.
