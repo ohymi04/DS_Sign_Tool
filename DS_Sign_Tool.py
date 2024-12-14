@@ -4,13 +4,16 @@ import subprocess
 import sys
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QLabel
-
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtWidgets import QProgressBar
 
 # Répertoire pour stocker les clés
 KEY_DIR = "keys/"
 if not os.path.exists(KEY_DIR):
     os.makedirs(KEY_DIR)
 
+# Liste globale pour stocker les processus actifs
+active_processes = []
 
 # Fonction pour récupérer les ressources dynamiquement
 def resource_path(relative_path):
@@ -21,10 +24,8 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")  # Si l'application est exécutée depuis le script source
     return os.path.join(base_path, relative_path)
 
-
 # Chemin vers OpenSSL
 OPENSSL_PATH = resource_path("openssl/openssl.exe")
-
 
 # Fonction pour calculer le hachage SHA-256
 def calculate_hash(file_path):
@@ -34,33 +35,54 @@ def calculate_hash(file_path):
             hash_sha256.update(chunk)
     return hash_sha256.hexdigest()
 
-
-# Fonction pour signer un fichier
-def sign_file(file_path, private_key):
+# Fonction standalone pour signer un fichier
+def sign_file_standalone(file_path, private_key):
     try:
         signed_file = file_path + ".signed"
-        subprocess.run([OPENSSL_PATH, "dgst", "-sha256", "-sign", private_key, "-out", signed_file, file_path], check=True, encoding="utf-8", errors="ignore")
+        # Use Popen to track the process
+        process = subprocess.Popen(
+            [OPENSSL_PATH, "dgst", "-sha256", "-sign", private_key, "-out", signed_file, file_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            encoding="utf-8",
+            errors="ignore"
+        )
+        active_processes.append(process)  # Ajouter le processus à la liste
+        stdout, stderr = process.communicate()  # Attendre la fin du processus
+        if process.returncode != 0:
+            raise Exception(f"Error signing file: {stderr}")
         return signed_file
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         raise Exception(f"Error signing file: {e}")
 
-
-# Fonction pour vérifier un fichier
-def verify_file(file_path, public_key, signed_file):
+# Fonction standalone pour vérifier un fichier
+def verify_file_standalone(file_path, public_key, signed_file):
     try:
-        result = subprocess.run(
+        # Use Popen to track the process
+        process = subprocess.Popen(
             [OPENSSL_PATH, "dgst", "-sha256", "-verify", public_key, "-signature", signed_file, file_path],
-            check=True, text=True, capture_output=True, encoding="utf-8", errors="ignore")
-        return "Verified OK" in result.stdout
-    except subprocess.CalledProcessError:
-        return False
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            encoding="utf-8",
+            errors="ignore"
+        )
+        active_processes.append(process)  # Ajouter le processus à la liste
+        stdout, stderr = process.communicate()  # Attendre la fin du processus
+        if process.returncode != 0:
+            raise Exception(f"Error verifying file: {stderr}")
+        return "Verified OK" in stdout
+    except Exception as e:
+        raise Exception(f"Error verifying file: {e}")
 
+def terminate_all_processes():
+    """Termine tous les processus OpenSSL encore actifs."""
+    for process in active_processes:
+        if process.poll() is None:  # Vérifier si le processus est toujours actif
+            process.terminate()  # Terminer le processus
+    active_processes.clear()  # Vider la liste des processus actifs
 
 # Fonction pour générer l'arborescence d'un répertoire
 def generate_tree(directory, output_file, prefix=""):
-    """
-    Génère l'arborescence d'un répertoire et écrit dans un fichier.
-    """
     entries = sorted(os.listdir(directory))
     entries_count = len(entries)
 
@@ -76,7 +98,6 @@ def generate_tree(directory, output_file, prefix=""):
         else:
             with open(output_file, "a", encoding="utf-8") as f:
                 f.write(f"{prefix}└───📄 {entry}\n")
-
 
 # Fonction pour signer un répertoire
 def sign_directory(directory_path, private_key):
@@ -96,11 +117,10 @@ def sign_directory(directory_path, private_key):
             hash_file.write(hash_value)
 
         # Signer le hash
-        sign_file(hash_file_path, private_key)
+        sign_file_standalone(hash_file_path, private_key)
         return dir_file_path, signed_hash_file_path
     except Exception as e:
         raise Exception(f"Error signing directory: {e}")
-
 
 # Fonction pour vérifier un répertoire
 def verify_directory(directory_path, public_key):
@@ -122,7 +142,7 @@ def verify_directory(directory_path, public_key):
             return False, "Directory structure hash mismatch."
 
         # Vérifier la signature du hash
-        valid = verify_file(hash_file_path, public_key, signed_hash_file_path)
+        valid = verify_file_standalone(hash_file_path, public_key, signed_hash_file_path)
         if not valid:
             return False, "Signature invalid."
 
@@ -130,7 +150,87 @@ def verify_directory(directory_path, public_key):
     except Exception as e:
         return False, str(e)
 
+# Worker thread for signing/verifying with progress updates
+class Worker(QThread):
+    progress = pyqtSignal(int)
+    finished = pyqtSignal(str)
 
+    def __init__(self, operation, file_path, key_path):
+        super().__init__()
+        self.operation = operation
+        self.file_path = file_path
+        self.key_path = key_path
+
+    def run(self):
+        try:
+            if self.operation == "sign":
+                self._sign_operation()
+            elif self.operation == "verify":
+                self._verify_operation()
+            self.finished.emit(f"{self.operation.capitalize()} operation completed successfully!")
+        except Exception as e:
+            self.finished.emit(f"Operation failed: {str(e)}")
+
+    def _sign_operation(self):
+        if os.path.isfile(self.file_path):
+            self._progressive_sign_file()
+        elif os.path.isdir(self.file_path):
+            self._progressive_sign_directory()
+
+    def _verify_operation(self):
+        if os.path.isfile(self.file_path):
+            self._progressive_verify_file()
+        elif os.path.isdir(self.file_path):
+            self._progressive_verify_directory()
+
+    def _progressive_sign_file(self):
+        file_size = os.path.getsize(self.file_path)
+        chunk_size = max(1, file_size // 100)
+        processed = 0
+
+        with open(self.file_path, 'rb') as file:
+            while chunk := file.read(chunk_size):
+                processed += len(chunk)
+                self.progress.emit(min(100, (processed * 100) // file_size))
+                QThread.msleep(50)
+        sign_file_standalone(self.file_path, self.key_path)
+
+    def _progressive_verify_file(self):
+        signed_file = self.file_path + ".signed"
+        file_size = os.path.getsize(self.file_path)
+        chunk_size = max(1, file_size // 100)
+        processed = 0
+
+        with open(self.file_path, 'rb') as file:
+            while chunk := file.read(chunk_size):
+                processed += len(chunk)
+                self.progress.emit(min(100, (processed * 100) // file_size))
+                QThread.msleep(50)
+        verify_file_standalone(self.file_path, self.key_path, signed_file)
+
+    def _progressive_sign_directory(self):
+        total_items = sum(len(files) for _, _, files in os.walk(self.file_path))
+        processed = 0
+
+        for _, _, files in os.walk(self.file_path):
+            for _ in files:
+                processed += 1
+                self.progress.emit((processed * 100) // total_items)
+                QThread.msleep(50)
+        sign_directory(self.file_path, self.key_path)
+
+    def _progressive_verify_directory(self):
+        total_items = sum(len(files) for _, _, files in os.walk(self.file_path))
+        processed = 0
+
+        for _, _, files in os.walk(self.file_path):
+            for _ in files:
+                processed += 1
+                self.progress.emit((processed * 100) // total_items)
+                QThread.msleep(50)
+        verify_directory(self.file_path, self.key_path)
+
+# Classe principale de l'application
 class DSSignToolApp(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -142,7 +242,6 @@ class DSSignToolApp(QtWidgets.QWidget):
     def setup_ui(self):
         main_layout = QtWidgets.QVBoxLayout(self)
 
-        # Ajouter la bannière en .ico
         self.display_banner()
 
         self.file_path_input = QtWidgets.QLineEdit(self)
@@ -209,23 +308,27 @@ class DSSignToolApp(QtWidgets.QWidget):
         buttons_layout.addWidget(verify_file_button)
         main_layout.addLayout(buttons_layout)
 
+        self.progress_bar = QProgressBar(self)
+        self.progress_bar.setAlignment(Qt.AlignCenter)
+        self.progress_bar.setValue(0)
+        main_layout.addWidget(self.progress_bar)
+
         copyright_label = QtWidgets.QLabel("© 2024 Dat-Sam NGUYEN Ltd. All rights reserved")
-        copyright_label.setAlignment(QtCore.Qt.AlignRight)
-        copyright_label.setStyleSheet("color: gray; font-size: 10px; margin-top: 20px;")
+        copyright_label.setAlignment(Qt.AlignRight)
         main_layout.addWidget(copyright_label)
 
         self.setLayout(main_layout)
 
     def display_banner(self):
         banner_label = QLabel(self)
-        banner_path = resource_path("icon/banner_png.png")  # Remplacer par le chemin correct de votre bannière
+        banner_path = resource_path("icon/banner_png.png")
         banner_pixmap = QtGui.QPixmap(banner_path)
 
         if not banner_pixmap.isNull():
             banner_pixmap = banner_pixmap.scaled(750, 350, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             banner_label.setPixmap(banner_pixmap)
         else:
-            banner_label.setText("Banner not found!")  # Si l'image est introuvable
+            banner_label.setText("Banner not found!")
 
         banner_label.setAlignment(QtCore.Qt.AlignCenter)
         self.layout().addWidget(banner_label)
@@ -268,15 +371,7 @@ class DSSignToolApp(QtWidgets.QWidget):
         if not file_path or not private_key:
             QMessageBox.warning(self, "Warning", "Please provide both file/folder path and private key path.")
             return
-        try:
-            if os.path.isfile(file_path):
-                signed_file = sign_file(file_path, private_key)
-                QMessageBox.information(self, "Success", f"File signed successfully!\nSigned File: {signed_file}")
-            elif os.path.isdir(file_path):
-                dir_file_path, signed_hash_file = sign_directory(file_path, private_key)
-                QMessageBox.information(self, "Success", f"Folder signed successfully!\nDir File: {dir_file_path}")
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+        self.start_worker("sign", file_path, private_key)
 
     def verify_file(self):
         file_path = self.file_path_input.text()
@@ -284,22 +379,26 @@ class DSSignToolApp(QtWidgets.QWidget):
         if not file_path or not public_key:
             QMessageBox.warning(self, "Warning", "Please provide both file path and public key path.")
             return
-        try:
-            if os.path.isfile(file_path):
-                signed_file = file_path + ".signed"
-                valid = verify_file(file_path, public_key, signed_file)
-                if valid:
-                    QMessageBox.information(self, "Success", "File signature is valid!")
-                else:
-                    QMessageBox.warning(self, "Invalid", "File signature is invalid.")
-            elif os.path.isdir(file_path):
-                valid, message = verify_directory(file_path, public_key)
-                if valid:
-                    QMessageBox.information(self, "Success", message)
-                else:
-                    QMessageBox.warning(self, "Invalid", message)
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+        self.start_worker("verify", file_path, public_key)
+
+    def start_worker(self, operation, file_path, key_path):
+        self.progress_bar.setValue(0)
+        self.worker = Worker(operation, file_path, key_path)
+        self.worker.progress.connect(self.update_progress)
+        self.worker.finished.connect(self.show_message)
+        self.worker.start()
+
+    def update_progress(self, value):
+        self.progress_bar.setValue(value)
+
+    def show_message(self, message):
+        self.progress_bar.setValue(100)
+        QMessageBox.information(self, "Info", message)
+
+    def closeEvent(self, event):
+        """Handle window close event to terminate all processes."""
+        terminate_all_processes()
+        event.accept()  # Continue with the default close behavior
 
 
 if __name__ == "__main__":
